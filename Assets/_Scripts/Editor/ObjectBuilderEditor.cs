@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEditor;
 
 [CustomEditor(typeof(ObjectBuilderScript))]
@@ -22,9 +21,8 @@ public class ObjectBuilderEditor : Editor{
 		prefabKey = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/key.prefab", typeof(GameObject)) as GameObject;
 	}
 	
-	public override void OnInspectorGUI(){
-		ObjectBuilderScript myScript = (ObjectBuilderScript)target;
-		
+	public override void OnInspectorGUI()
+	{	
 		GUILayout.Label("");
 		GUILayout.BeginHorizontal();
 		GUILayout.FlexibleSpace();
@@ -35,13 +33,19 @@ public class ObjectBuilderEditor : Editor{
 		
 		GUILayout.BeginHorizontal();
 		GUILayout.FlexibleSpace();
-		if(GUILayout.Button(iconStar)) myScript.AddObjectToScene(prefabStar);
+		if(GUILayout.Button(iconStar)) AddObjectToScene(prefabStar);
 		GUILayout.FlexibleSpace();
-		if(GUILayout.Button(iconHeart)) myScript.AddObjectToScene(prefabHeart);
+		if(GUILayout.Button(iconHeart)) AddObjectToScene(prefabHeart);
 		GUILayout.FlexibleSpace();
-		if(GUILayout.Button(iconKey)) myScript.AddObjectToScene(prefabKey);
+		if(GUILayout.Button(iconKey)) AddObjectToScene(prefabKey);
 		GUILayout.FlexibleSpace();
 		GUILayout.EndHorizontal();
-		
+	}
+	
+	private void AddObjectToScene(GameObject prefabToCreateInScene)
+	{
+		ObjectBuilderScript myScript = (ObjectBuilderScript)target;
+		GameObject newGo = Instantiate(prefabToCreateInScene, myScript.gameObject.transform.position, Quaternion.identity);
+		newGo.name = prefabToCreateInScene.name;
 	}
 }
